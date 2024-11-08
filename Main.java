@@ -237,7 +237,8 @@ public class Main {
 
         do {
             int i;
-            boolean isExist;
+            boolean isExist = false;
+            int index = 0;
 
             System.out.print("Enter Student ID: ");
             Scanner studentInput = new Scanner(System.in);
@@ -245,43 +246,42 @@ public class Main {
 
             for (i = 0; i < studentIDs.length; i++) {
                 if (studentIDs[i] == studentId) {
-                    System.out.print("Student Name: " + studentNames[i]);
+                    index = i;
                     isExist = true;
-
-                    int programmingFundamentalMark;
-                    int dbmsMark;
-
-                    do {
-                        System.out.print("Programming Fundamentals Marks: ");
-                        programmingFundamentalMark = studentInput.nextInt();
-                        if (!(programmingFundamentalMark > 0 && programmingFundamentalMark < 100)) {
-                            System.out.print("Invalid marks, please enter correct marks.");
-                        }
-
-                    } while (!(programmingFundamentalMark > 0 && programmingFundamentalMark < 100));
-
-                    programmingFundamentalMarks[i] = programmingFundamentalMark;
-
-                    do {
-                        System.out.print("Database Management System Marks: ");
-                        dbmsMark = studentInput.nextInt();
-                        if (!(dbmsMark > 0 && dbmsMark < 100)) {
-                            System.out.print("Invalid marks, please enter correct marks.");
-                        }
-
-                    } while (!(dbmsMark > 0 && dbmsMark < 100));
-
-                    dbmsMarks[i] = dbmsMark;
-
-                    System.out.print("Marks have been added. Do you want to add marks for another student(Y/n): ");
-
-                    myInput = studentInput.next();
-
                 }
-
             }
-            System.out.print("Invalid Student ID. Do you want to search again? Y/n(): ");
-            myInput = studentInput.next();
+
+            if (isExist) {
+                int programmingFundamentalMark;
+                int dbmsMark;
+                System.out.println("Student Name: " + studentNames[index]);
+
+                do {
+                    System.out.print("Programming Fundamentals Marks: ");
+                    programmingFundamentalMark = studentInput.nextInt();
+                    if (!(programmingFundamentalMark > 0 && programmingFundamentalMark < 100)) {
+                        System.out.print("Invalid marks, please enter correct marks.");
+                    }
+                } while (!(programmingFundamentalMark > 0 && programmingFundamentalMark < 100));
+
+                programmingFundamentalMarks[index] = programmingFundamentalMark;
+
+                do {
+                    System.out.print("Database Management System Marks: ");
+                    dbmsMark = studentInput.nextInt();
+                    if (!(dbmsMark > 0 && dbmsMark < 100)) {
+                        System.out.print("Invalid marks, please enter correct marks.");
+                    }
+                } while (!(dbmsMark > 0 && dbmsMark < 100));
+
+                dbmsMarks[index] = dbmsMark;
+                System.out.print("Marks have been added. Do you want to add marks for another student(Y/n): ");
+                myInput = studentInput.next();
+
+            } else {
+                System.out.print("Invalid Student ID. Do you want to search again? Y/n(): ");
+                myInput = studentInput.next();
+            }
 
         } while (myInput.equals("Y"));
 
