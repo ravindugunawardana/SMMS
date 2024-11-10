@@ -252,6 +252,17 @@ public class Main {
             }
 
             if (isExist) {
+                if (programmingFundamentalMarks[index] > 0 && dbmsMarks[index] > 0) {
+                    System.out.println(
+                            "This student's marks have been already added. Do you want to add a new student(Y/n): \n"
+                                    + "If you want to update the marks, please use [4] Update Marks option.\n\n"
+                                    + "Do you want to add marks for another student?");
+                    myInput = studentInput.next();
+
+                }
+            }
+
+            if (isExist) {
                 int programmingFundamentalMark;
                 int dbmsMark;
                 System.out.println("Student Name: " + studentNames[index]);
