@@ -42,10 +42,10 @@ public class Main {
                     addMarks();
                     break;
                 case 4:
-                    // updateStudentDetails();
+                    updateStudentDetails();
                     break;
                 case 5:
-                    // updateMarks();
+                    updateMarks();
                     break;
                 case 6:
                     // deletStudent();
@@ -257,16 +257,16 @@ public class Main {
                 System.out.println("Student Name: " + studentNames[index]);
 
                 if (programmingFundamentalMarks[index] > 0 && dbmsMarks[index] > 0) {
-                  System.out.print(
-                      "This student's marks have been already added.\n"
-                          + "If you want to update the marks, please use [4] Update Marks option.\n\n"
-                          + "Do you want to add marks for another student?: ");
-                  userInput = studentInput.next();
-                  if (userInput.equals("Y")) {
-                    continue;
-                  } else {
-                    break;
-                  }
+                    System.out.print(
+                            "This student's marks have been already added.\n"
+                                    + "If you want to update the marks, please use [4] Update Marks option.\n\n"
+                                    + "Do you want to add marks for another student?: ");
+                    userInput = studentInput.next();
+                    if (userInput.equals("Y")) {
+                        continue;
+                    } else {
+                        break;
+                    }
                 }
 
                 do {
@@ -299,4 +299,103 @@ public class Main {
         } while (userInput.equals("Y"));
 
     }
+
+    public static void updateStudentDetails() {
+        System.out.println("UPDATE STUDENT DETAILS");
+        Scanner userInput = new Scanner(System.in);
+        String inputString = "";
+        int studentId;
+        boolean isExist = false;
+        int index = 0;
+        String newStudentName;
+
+        do {
+            System.out.print("Enter Student ID: ");
+            studentId = userInput.nextInt();
+
+            for (int i = 0; i < studentIDs.length; i++) {
+                if (studentIDs[i] == studentId) {
+                    index = i;
+                    isExist = true;
+                }
+            }
+
+            if (isExist) {
+                System.out.println("Student Name: " + studentNames[index] + "\n");
+                System.out.print("Enter the new student name: " + "\n");
+                newStudentName = userInput.next();
+                studentNames[index] = newStudentName;
+                System.out.print("Student details has been updated sucessfully.\n"
+                        + "Do you want to update another student details? (Y/n): ");
+                inputString = userInput.next();
+            } else {
+                System.out.print("Invalid Student ID. Do you want to search again? Y/n(): ");
+                inputString = userInput.next();
+            }
+        } while (inputString.equals("Y"));
+    }
+
+    public static void updateMarks() {
+        System.out.println("UPDATE MARKS");
+        Scanner userInput = new Scanner(System.in);
+        String inputString = "";
+        int studentId;
+        int index = 0;
+        boolean isExist = false;
+        int newProgrammingFMarks = 0;
+        int newDbmsMark = 0;
+
+        do {
+
+            System.out.print("Enter Student ID: ");
+            studentId = userInput.nextInt();
+
+            for (int i = 0; i < studentIDs.length; i++) {
+                if (studentIDs[i] == studentId) {
+                    index = i;
+                    isExist = true;
+                }
+            }
+
+            if (isExist) {
+                System.out.println("Student Name: " + studentNames[index] + "\n\n"
+                        + "Programming Fundamentals Marks: " + programmingFundamentalMarks[index] + "\n"
+                        + "Database Management System Marks : " + dbmsMarks[index] + "\n\n");
+
+                do {
+
+                    System.out.println("Enter new Programming Fundamental Marks: ");
+                    newProgrammingFMarks = userInput.nextInt();
+                    if (!(newProgrammingFMarks > 0 && newProgrammingFMarks < 100)) {
+                        System.out.println("Invalid marks, please enter correct marks.");
+                    }
+
+                } while (!(newProgrammingFMarks > 0 && newProgrammingFMarks < 100));
+
+                programmingFundamentalMarks[index] = newProgrammingFMarks;
+
+                do {
+                    System.out.print("Enter new Database Management System Marks: ");
+                    newDbmsMark = userInput.nextInt();
+                    if (!(newDbmsMark > 0 && newDbmsMark < 100)) {
+                        System.out.println("Invalid marks, please enter correct marks.");
+                    }
+
+                } while (!(newDbmsMark > 0 && newDbmsMark < 100));
+
+                dbmsMarks[index] = newDbmsMark;
+
+                System.out.print("Marks have been updated successfully.\n"
+                        + "Do you want to update marks for another student? (Y/n): ");
+                inputString = userInput.next();
+
+            } else {
+                System.out.print("Invalid Student ID. Do you want to search again? Y/n(): ");
+                inputString = userInput.next();
+            }
+
+        } while (inputString.equals("Y"));
+
+    }
+
 }
