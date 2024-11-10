@@ -214,7 +214,7 @@ public class Main {
             int j = dbmsMarks.length - 1;
             dbmsMarks[j] = dbmsMark;
 
-            System.out.print("Student has been added sucessfully. Do you want to add a new student(Y/n): ");
+            System.out.print("Student has been added successfully. Do you want to add a new student(Y/n): ");
 
             input = studentInput.next();
 
@@ -230,7 +230,7 @@ public class Main {
     }
 
     public static void addMarks() {
-        String myInput;
+        String userInput;
         int studentId;
 
         System.out.println("ADD MARKS");
@@ -252,20 +252,22 @@ public class Main {
             }
 
             if (isExist) {
-                if (programmingFundamentalMarks[index] > 0 && dbmsMarks[index] > 0) {
-                    System.out.println(
-                            "This student's marks have been already added. Do you want to add a new student(Y/n): \n"
-                                    + "If you want to update the marks, please use [4] Update Marks option.\n\n"
-                                    + "Do you want to add marks for another student?");
-                    myInput = studentInput.next();
-
-                }
-            }
-
-            if (isExist) {
                 int programmingFundamentalMark;
                 int dbmsMark;
                 System.out.println("Student Name: " + studentNames[index]);
+
+                if (programmingFundamentalMarks[index] > 0 && dbmsMarks[index] > 0) {
+                  System.out.print(
+                      "This student's marks have been already added.\n"
+                          + "If you want to update the marks, please use [4] Update Marks option.\n\n"
+                          + "Do you want to add marks for another student?: ");
+                  userInput = studentInput.next();
+                  if (userInput.equals("Y")) {
+                    continue;
+                  } else {
+                    break;
+                  }
+                }
 
                 do {
                     System.out.print("Programming Fundamentals Marks: ");
@@ -287,14 +289,14 @@ public class Main {
 
                 dbmsMarks[index] = dbmsMark;
                 System.out.print("Marks have been added. Do you want to add marks for another student(Y/n): ");
-                myInput = studentInput.next();
+                userInput = studentInput.next();
 
             } else {
                 System.out.print("Invalid Student ID. Do you want to search again? Y/n(): ");
-                myInput = studentInput.next();
+                userInput = studentInput.next();
             }
 
-        } while (myInput.equals("Y"));
+        } while (userInput.equals("Y"));
 
     }
 }
