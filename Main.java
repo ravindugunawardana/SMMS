@@ -26,6 +26,13 @@ public class Main {
 
         do {
 
+            System.out.println("");
+            System.out.println(Arrays.toString(studentIDs));
+            System.out.println(Arrays.toString(studentNames));
+            System.out.println(Arrays.toString(programmingFundamentalMarks));
+            System.out.println(Arrays.toString(dbmsMarks));
+            System.out.println("");
+
             System.out.print(menuView);
             menuSelection = scanner.nextInt();
 
@@ -48,7 +55,7 @@ public class Main {
                     updateMarks();
                     break;
                 case 6:
-                    // deletStudent();
+                    deletStudent();
                     break;
                 case 7:
                     // printStudentDetails();
@@ -305,11 +312,12 @@ public class Main {
         Scanner userInput = new Scanner(System.in);
         String inputString = "";
         int studentId;
-        boolean isExist = false;
-        int index = 0;
         String newStudentName;
 
         do {
+            boolean isExist = false;
+            int index = 0;
+
             System.out.print("Enter Student ID: ");
             studentId = userInput.nextInt();
 
@@ -321,7 +329,7 @@ public class Main {
             }
 
             if (isExist) {
-                System.out.println("Student Name: " + studentNames[index] + "\n");
+                System.out.println("Student Name: " + studentNames[index]);
                 System.out.print("Enter the new student name: " + "\n");
                 newStudentName = userInput.next();
                 studentNames[index] = newStudentName;
@@ -340,12 +348,12 @@ public class Main {
         Scanner userInput = new Scanner(System.in);
         String inputString = "";
         int studentId;
-        int index = 0;
-        boolean isExist = false;
-        int newProgrammingFMarks = 0;
-        int newDbmsMark = 0;
+        int newProgrammingFMarks;
+        int newDbmsMark;
 
         do {
+            int index = 0;
+            boolean isExist = false;
 
             System.out.print("Enter Student ID: ");
             studentId = userInput.nextInt();
@@ -358,13 +366,24 @@ public class Main {
             }
 
             if (isExist) {
+                if (programmingFundamentalMarks[index] == 0 && dbmsMarks[index] == 0) {
+                    System.out.println("This student's marks yet to be added.");
+                    System.out.print("Do you want to update marks for another student? (Y/n): ");
+
+                    inputString = userInput.next();
+                    if (userInput.equals("Y")) {
+                        continue;
+                    } else {
+                        break;
+                    }
+                }
+
                 System.out.println("Student Name: " + studentNames[index] + "\n\n"
                         + "Programming Fundamentals Marks: " + programmingFundamentalMarks[index] + "\n"
                         + "Database Management System Marks : " + dbmsMarks[index] + "\n\n");
 
                 do {
-
-                    System.out.println("Enter new Programming Fundamental Marks: ");
+                    System.out.print("Enter new Programming Fundamental Marks: ");
                     newProgrammingFMarks = userInput.nextInt();
                     if (!(newProgrammingFMarks > 0 && newProgrammingFMarks < 100)) {
                         System.out.println("Invalid marks, please enter correct marks.");
@@ -385,8 +404,8 @@ public class Main {
 
                 dbmsMarks[index] = newDbmsMark;
 
-                System.out.print("Marks have been updated successfully.\n"
-                        + "Do you want to update marks for another student? (Y/n): ");
+                System.out.println("Marks have been updated successfully.");
+                System.out.print("Do you want to update marks for another student? (Y/n): ");
                 inputString = userInput.next();
 
             } else {
@@ -398,4 +417,64 @@ public class Main {
 
     }
 
+    public static int[] removeElementFromIntArray(int[] orginalArray, int indexToRemove) {
+        int[] newArray = new int[orginalArray.length - 1];
+
+        for (int i = 0, k = 0; i < orginalArray.length; i++) {
+            if (i != indexToRemove) {
+                newArray[k] = orginalArray[i];
+                k++;
+            }
+        }
+        return newArray;
+    }
+
+    public static String[] removeElementFromStringArray(String[] orginalArray, int indexToRemove) {
+        String[] newArray = new String[orginalArray.length - 1];
+
+        for (int i = 0, k = 0; i < orginalArray.length; i++) {
+            if (i != indexToRemove) {
+                newArray[k] = orginalArray[i];
+                k++;
+            }
+        }
+        return newArray;
+    }
+
+    public static void deletStudent() {
+        System.out.println("DELETE STUDENT");
+        Scanner userInput = new Scanner(System.in);
+        String inputString = "";
+        int studentId;
+
+        do {
+            int index = 0;
+            boolean isExist = false;
+
+            System.out.print("Enter Student ID: ");
+            studentId = userInput.nextInt();
+
+            for (int i = 0; i < studentIDs.length; i++) {
+                if (studentIDs[i] == studentId) {
+                    index = i;
+                    isExist = true;
+                }
+            }
+
+            if (isExist) {
+
+                studentIDs = removeElementFromIntArray(studentIDs, index);
+                studentNames = removeElementFromStringArray(studentNames, index);
+                programmingFundamentalMarks = removeElementFromIntArray(programmingFundamentalMarks, index);
+                dbmsMarks = removeElementFromIntArray(dbmsMarks, index);
+                System.out.print("Student has been deleted successfully.\n"
+                + "Do you want to delete another student? (Y/n): ");
+                inputString = userInput.next();
+
+            } else {
+                System.out.print("Invalid Student ID. Do you want to search again? (Y/n): ");
+                inputString = userInput.next();
+            }
+        } while (inputString.equals("Y"));
+    }
 }
