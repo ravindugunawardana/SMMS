@@ -58,7 +58,7 @@ public class Main {
                     deletStudent();
                     break;
                 case 7:
-                    // printStudentDetails();
+                    printStudentDetails();
                     break;
                 case 8:
                     // printStudentRanks();
@@ -468,7 +468,7 @@ public class Main {
                 programmingFundamentalMarks = removeElementFromIntArray(programmingFundamentalMarks, index);
                 dbmsMarks = removeElementFromIntArray(dbmsMarks, index);
                 System.out.print("Student has been deleted successfully.\n"
-                + "Do you want to delete another student? (Y/n): ");
+                        + "Do you want to delete another student? (Y/n): ");
                 inputString = userInput.next();
 
             } else {
@@ -476,5 +476,93 @@ public class Main {
                 inputString = userInput.next();
             }
         } while (inputString.equals("Y"));
+    }
+
+    public static void printStudentDetails() {
+        System.out.println("PRINT STUDENT DETAILS");
+        Scanner userInput = new Scanner(System.in);
+        String inputString = "";
+        int studentId;
+
+        do {
+            int index = 0;
+            boolean isExist = false;
+
+            System.out.print("Enter Student ID: ");
+            studentId = userInput.nextInt();
+
+            for (int i = 0; i < studentIDs.length; i++) {
+                if (studentIDs[i] == studentId) {
+                    index = i;
+                    isExist = true;
+                }
+            }
+
+            if (isExist) {
+                System.out.print("Student Name: " + studentNames[index]);
+
+                if (programmingFundamentalMarks[index] == 0 && dbmsMarks[index] == 0) {
+                    System.out.println("Marks yet to be added");
+                } else {
+                    int pfMark = programmingFundamentalMarks[index];
+                    int dbMark = dbmsMarks[index];
+                    int total = pfMark + dbMark;
+                    double average = total / 2;
+
+                    // Create average marks array
+
+                    double[] averageMarksArray = new double[studentIDs.length];
+                    for (int i = 0; i < studentIDs.length; i++) {
+                        averageMarksArray[i] = (programmingFundamentalMarks[i] + dbmsMarks[i]) / 2;
+                    }
+
+                    System.out.println(Arrays.toString(averageMarksArray));
+
+                    // Sort average marks array in descending order
+                    for (int i = 0; i < averageMarksArray.length; i++) {
+
+                        for (int j = i + 1; j < averageMarksArray.length; j++) {
+                            double temp = 0.0;
+
+                            if (averageMarksArray[j] > averageMarksArray[i]) {
+                                temp = averageMarksArray[i];
+
+                                averageMarksArray[i] = averageMarksArray[j];
+                                averageMarksArray[j] = temp;
+                            }
+                        }
+                    }
+
+                    System.out.println(Arrays.toString(averageMarksArray));
+
+
+                    // Find the avg mark of current student
+                    for (int i = 0; i < averageMarksArray.length; i++) {
+
+                        if(){
+
+                        }
+
+                    }
+
+                    System.out.println(
+                            "+-------------------------------------+------------------+\n"
+                                    + "|Programming Fundamentals Marks       |                    " + pfMark + "|\n"
+                                    + "|Database Management System Marks     |                    " + dbMark + "|\n"
+                                    + "|Total Marks                          |                    " + total + "|\n"
+                                    + "|Avg. Marks                           |                    " + average + "|\n"
+                                    + "|Rank                                 |                    "+ |\n"
+                                    + "+-----------------------------------+----------------------+");
+                }
+
+                System.out.print("Do you want to search another student details? (Y/n): ");
+                inputString = userInput.next();
+            } else {
+                System.out.print("Invalid Student ID. Do you want to search again? (Y/n): ");
+                inputString = userInput.next();
+            }
+
+        } while (inputString.equals("Y"));
+
     }
 }
