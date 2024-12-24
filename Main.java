@@ -61,7 +61,7 @@ public class Main {
                     printStudentDetails();
                     break;
                 case 8:
-                    // printStudentRanks();
+                    printStudentRanks();
                     break;
                 case 9:
                     // bestInProgrammingFundamentals();
@@ -478,12 +478,34 @@ public class Main {
         } while (inputString.equals("Y"));
     }
 
+    private static void calculateRanks(double[] marks, int[] ranks) {
+        int n = marks.length;
+        for (int i = 0; i < n; i++) {
+            int rank = 1;
+            for (int j = 0; j < n; j++) {
+                if (marks[j] > marks[i]) {
+                    rank++;
+                }
+            }
+            ranks[i] = rank;
+        }
+    }
+
     public static void printStudentDetails() {
         System.out.println("PRINT STUDENT DETAILS");
+        int arrayLength = studentIDs.length;
         Scanner userInput = new Scanner(System.in);
         String inputString = "";
         int studentId;
+        double[] averageMarks = new double[arrayLength];
+        int[] ranks = new int[arrayLength];
 
+        // Prepare average mark array
+        for (int i = 0; i < studentIDs.length; i++) {
+            averageMarks[i] = (programmingFundamentalMarks[i] + dbmsMarks[i]) / 2;
+        }
+
+        calculateRanks(averageMarks, ranks);
         do {
             int index = 0;
             boolean isExist = false;
@@ -499,60 +521,37 @@ public class Main {
             }
 
             if (isExist) {
-                System.out.print("Student Name: " + studentNames[index]);
+                System.out.println("Student Name: " + studentNames[index]);
 
                 if (programmingFundamentalMarks[index] == 0 && dbmsMarks[index] == 0) {
                     System.out.println("Marks yet to be added");
                 } else {
-                    int pfMark = programmingFundamentalMarks[index];
-                    int dbMark = dbmsMarks[index];
-                    int total = pfMark + dbMark;
-                    double average = total / 2;
 
-                    // Create average marks array
+                    String rankPosition;
+                    int totalMarks = programmingFundamentalMarks[index] + dbmsMarks[index];
 
-                    double[] averageMarksArray = new double[studentIDs.length];
-                    for (int i = 0; i < studentIDs.length; i++) {
-                        averageMarksArray[i] = (programmingFundamentalMarks[i] + dbmsMarks[i]) / 2;
-                    }
-
-                    System.out.println(Arrays.toString(averageMarksArray));
-
-                    // Sort average marks array in descending order
-                    for (int i = 0; i < averageMarksArray.length; i++) {
-
-                        for (int j = i + 1; j < averageMarksArray.length; j++) {
-                            double temp = 0.0;
-
-                            if (averageMarksArray[j] > averageMarksArray[i]) {
-                                temp = averageMarksArray[i];
-
-                                averageMarksArray[i] = averageMarksArray[j];
-                                averageMarksArray[j] = temp;
-                            }
-                        }
-                    }
-
-                    System.out.println(Arrays.toString(averageMarksArray));
-
-
-                    // Find the avg mark of current student
-                    for (int i = 0; i < averageMarksArray.length; i++) {
-
-                        if(){
-
-                        }
-
+                    if (ranks[index] == 1) {
+                        rankPosition = " (First)";
+                    } else if (ranks[index] == 2) {
+                        rankPosition = " (Second)";
+                    } else if (ranks[index] == 3) {
+                        rankPosition = " (Third)";
+                    } else {
+                        rankPosition = "";
                     }
 
                     System.out.println(
-                            "+-------------------------------------+------------------+\n"
-                                    + "|Programming Fundamentals Marks       |                    " + pfMark + "|\n"
-                                    + "|Database Management System Marks     |                    " + dbMark + "|\n"
-                                    + "|Total Marks                          |                    " + total + "|\n"
-                                    + "|Avg. Marks                           |                    " + average + "|\n"
-                                    + "|Rank                                 |                    "+ |\n"
-                                    + "+-----------------------------------+----------------------+");
+                            "+-------------------------------------+------------------------+\n"
+                                    + "|Programming Fundamentals Marks       |                    "
+                                    + programmingFundamentalMarks[index] + "|\n"
+                                    + "|Database Management System Marks     |                    " + dbmsMarks[index]
+                                    + "|\n"
+                                    + "|Total Marks                          |                    " + totalMarks + "|\n"
+                                    + "|Avg. Marks                           |                    "
+                                    + averageMarks[index] + "|\n"
+                                    + "|Rank                                 |                    " + ranks[index]
+                                    + rankPosition + "|\n"
+                                    + "+-------------------------------------+------------------------+");
                 }
 
                 System.out.print("Do you want to search another student details? (Y/n): ");
@@ -565,4 +564,7 @@ public class Main {
         } while (inputString.equals("Y"));
 
     }
+
+    public static void printStudentRanks(){
+}
 }
