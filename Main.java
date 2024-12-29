@@ -565,6 +565,42 @@ public class Main {
 
     }
 
-    public static void printStudentRanks(){
-}
+    public static void printStudentRanks() {
+
+        System.out.println("PRINT STUDENT RANKS");
+        int arrayLength = studentIDs.length;
+        Scanner userInput = new Scanner(System.in);
+        String inputString = "";
+        int[] totalMarks = new int[arrayLength];
+        double[] averageMarks = new double[arrayLength];
+        int[] ranks = new int[arrayLength];
+
+        // Prepare total marks array
+        for (int i = 0; i < arrayLength; i++) {
+            totalMarks[i] = programmingFundamentalMarks[i] + dbmsMarks[i];
+        }
+
+        // Prepare average marks array
+        for (int i = 0; i < studentIDs.length; i++) {
+            averageMarks[i] = (totalMarks[i]) / 2;
+        }
+
+        calculateRanks(averageMarks, ranks);
+
+        do {
+            for (int i = 0; i < arrayLength; i++) {
+                for (int j = 0; j < ranks.length; j++) {
+                    if (ranks[j] == i + 1) {
+                        System.out.println("Rank: " + ranks[j] + " ID: " + studentIDs[j] + " Name: " + studentNames[j]
+                                + " Total Marks: " + totalMarks[j] + " Average Marks: " + averageMarks[j]);
+                    }
+                }
+            }
+
+            System.out.print("Do you want to go back to main menu? (Y/n): ");
+            inputString = userInput.next();
+
+        } while (inputString.equals("Y"));
+    }
+
 }
