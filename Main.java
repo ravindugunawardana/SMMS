@@ -1,10 +1,8 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     static int studentIDs[] = new int[0];
     static String studentNames[] = new String[0];
-
     static int programmingFundamentalMarks[] = new int[0];
     static int dbmsMarks[] = new int[0];
 
@@ -25,17 +23,10 @@ public class Main {
         int menuSelection = 0;
 
         do {
-
-            System.out.println("");
-            System.out.println(Arrays.toString(studentIDs));
-            System.out.println(Arrays.toString(studentNames));
-            System.out.println(Arrays.toString(programmingFundamentalMarks));
-            System.out.println(Arrays.toString(dbmsMarks));
-            System.out.println("");
-
+            clearConsole();
+            System.out.println();
             System.out.print(menuView);
             menuSelection = scanner.nextInt();
-
             System.out.println();
 
             switch (menuSelection) {
@@ -64,10 +55,10 @@ public class Main {
                     printStudentRanks();
                     break;
                 case 9:
-                    // bestInProgrammingFundamentals();
+                    printBestInProgrammingFundamentals();
                     break;
                 case 10:
-                    // bestInDatabaseManagementSystem();
+                    printBestInDatabaseManagementSystem();
                     break;
 
                 default:
@@ -150,13 +141,6 @@ public class Main {
             input = studentInput.next();
 
         } while (input.equals("Y"));
-
-        System.out.println("");
-        System.out.println(Arrays.toString(studentIDs));
-        System.out.println(Arrays.toString(studentNames));
-        System.out.println(Arrays.toString(programmingFundamentalMarks));
-        System.out.println(Arrays.toString(dbmsMarks));
-        System.out.println("");
     }
 
     public static void addNewStudentWithMarks() {
@@ -226,14 +210,6 @@ public class Main {
             input = studentInput.next();
 
         } while (input.equals("Y"));
-
-        System.out.println("");
-        System.out.println(Arrays.toString(studentIDs));
-        System.out.println(Arrays.toString(studentNames));
-        System.out.println(Arrays.toString(programmingFundamentalMarks));
-        System.out.println(Arrays.toString(dbmsMarks));
-        System.out.println("");
-
     }
 
     public static void addMarks() {
@@ -478,7 +454,20 @@ public class Main {
         } while (inputString.equals("Y"));
     }
 
-    private static void calculateRanks(double[] marks, int[] ranks) {
+    public static void calculateRanks(double[] marks, int[] ranks) {
+        int n = marks.length;
+        for (int i = 0; i < n; i++) {
+            int rank = 1;
+            for (int j = 0; j < n; j++) {
+                if (marks[j] > marks[i]) {
+                    rank++;
+                }
+            }
+            ranks[i] = rank;
+        }
+    }
+
+    public static void calculateRanks(int[] marks, int[] ranks) {
         int n = marks.length;
         for (int i = 0; i < n; i++) {
             int rank = 1;
@@ -590,7 +579,7 @@ public class Main {
         do {
             for (int i = 0; i < arrayLength; i++) {
                 for (int j = 0; j < ranks.length; j++) {
-                    if (ranks[j] == i + 1) {
+                    if ((ranks[j] == i + 1) && (averageMarks[j] != 0.0)) {
                         System.out.println("Rank: " + ranks[j] + " ID: " + studentIDs[j] + " Name: " + studentNames[j]
                                 + " Total Marks: " + totalMarks[j] + " Average Marks: " + averageMarks[j]);
                     }
@@ -600,7 +589,58 @@ public class Main {
             System.out.print("Do you want to go back to main menu? (Y/n): ");
             inputString = userInput.next();
 
-        } while (inputString.equals("Y"));
+        } while (inputString.equals("n"));
+    }
+
+    public static void printRanksBasedOnSubjectResults(int[] subjectMarksArray) {
+
+        System.out.println("BEST IN PROGRAMMING FUNDAMENTALS MARKS");
+        int arrayLength = studentIDs.length;
+        Scanner userInput = new Scanner(System.in);
+        String inputString = "";
+        int[] ranks = new int[arrayLength];
+
+        calculateRanks(subjectMarksArray, ranks);
+
+        do {
+            for (int i = 0; i < arrayLength; i++) {
+                for (int j = 0; j < ranks.length; j++) {
+                    if ((ranks[j] == i + 1) && (subjectMarksArray[j] != 0.0)) {
+                        System.out.println("Rank: " + ranks[j] + " ID: " + studentIDs[j] + " Name: " + studentNames[j]
+                                + " PF Marks: " + subjectMarksArray[j] + " DBMS Marks: " + dbmsMarks[j]);
+                    }
+                }
+            }
+
+            System.out.print("Do you want to go back to main menu? (Y/n): ");
+            inputString = userInput.next();
+
+        } while (inputString.equals("n"));
+
+    }
+
+    public static void printBestInProgrammingFundamentals() {
+        printRanksBasedOnSubjectResults(programmingFundamentalMarks);
+
+    }
+
+    public static void printBestInDatabaseManagementSystem() {
+        printRanksBasedOnSubjectResults(dbmsMarks);
+    }
+
+    public final static void clearConsole() {
+        try {
+            final String os = System.getProperty("os.name");
+            if (os.contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            } else {
+                System.out.print("\033[H\033[2J");
+                System.out.flush();
+            }
+        } catch (final Exception e) {
+            e.printStackTrace();
+            // Handle any exceptions.
+        }
     }
 
 }
